@@ -7,25 +7,24 @@
 
 import SwiftUI
 
-struct Repository: Identifiable {
+struct Repository: Identifiable, Decodable {
     let id: Int
     let name: String
     let owner: Owner
 }
 
-struct Owner {
+struct Owner: Decodable {
     let login: String
-    
-    let avatar: String
+    let avatarUrl: String
     
     private enum CodingKeys : String, CodingKey {
         case login
         case avatarUrl = "avatar_url"
     }
-    
 }
+
 struct ContentView: View {
-    var tutors = [Repository(id: 1, name: "123", owner: Owner(login: "123", avatar: "123123"))]
+    var tutors = [Repository(id: 1, name: "123", owner: Owner(login: "123", avatarUrl: "123123"))]
     
     var body: some View {
         

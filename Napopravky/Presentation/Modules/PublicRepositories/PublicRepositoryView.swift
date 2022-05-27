@@ -8,13 +8,45 @@
 import SwiftUI
 
 struct PublicRepositoriesView: View {
+    
+    @ObservedObject var viewModel: PublicRepositoriesViewModel
+    
+    init(viewModel: PublicRepositoriesViewModel) {
+      self.viewModel = viewModel
+        viewModel.loadData()
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List(viewModel.repositories) { repository in
+            HStack {
+//                Image(uiImage: downloaded)
+                AsyncImage(url: URL(string: repository.owner.avatarUrl)){ image in
+                    image.resizable()
+                } placeholder: {
+                    ProgressView()
+                }
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                
+                VStack(alignment: .leading) {
+                    Text(repository.name)
+                        .font(.system(size: 20))
+                    Text(repository.owner.login)
+                        .foregroundColor(.gray)
+                        .font(.system(size: 16))
+                }
+            }
+            .onTapGesture {
+                viewModel.showRepositoryDetails(repository: repository)
+            }
+        }
+        
     }
 }
 
 struct PublicRepositoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        PublicRepositoriesView()
+        PublicRepositoriesView(viewModel: PublicRepositoriesViewModel())
     }
 }
+
