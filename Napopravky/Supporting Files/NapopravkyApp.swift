@@ -13,7 +13,7 @@ struct NapopravkyApp: App {
         WindowGroup {
 //            PublicRepositoriesView(viewModel: PublicRepositoriesViewModel())
             
-            RepositoryView(viewModel: RepositoryViewModel(repository: Repository(id: 1, name: "123", owner: Owner(login: "John", avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4"))))
+            RepositoryView(viewModel: RepositoryViewModel(repository: Repository(id: 1, name: "Napopravky", owner: Owner(login: "John", avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4"), commitUrl: "https://api.github.com/repos/mojombo/grit/commits")))
         }
     }
 }

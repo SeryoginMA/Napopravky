@@ -13,13 +13,11 @@ struct PublicRepositoriesView: View {
     
     init(viewModel: PublicRepositoriesViewModel) {
       self.viewModel = viewModel
-        viewModel.loadData()
     }
     
     var body: some View {
         List(viewModel.repositories) { repository in
             HStack {
-//                Image(uiImage: downloaded)
                 AsyncImage(url: URL(string: repository.owner.avatarUrl)){ image in
                     image.resizable()
                 } placeholder: {
