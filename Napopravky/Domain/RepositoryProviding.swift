@@ -8,5 +8,5 @@
 import Foundation
 
 protocol RepositoryProviding {
-    
+    func getPublicRepositories(completion: @escaping ([Repository]) -> Void)
 }

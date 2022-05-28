@@ -22,22 +22,23 @@ struct RepositoryView: View {
             } placeholder: {
                 ProgressView()
             }
-            .frame(width: 200, height: 200)
+            .frame(width: 150, height: 150)
             .clipShape(Circle())
             
             Text(viewModel.repository.owner.login)
-                .font(.system(.title))
+                .font(.title2)
+                .lineLimit(3)
+                .padding(.horizontal, 16)
+                .multilineTextAlignment(.center)
             
             Text(viewModel.repository.name)
                 .bold()
-                .font(.system(.title))
+                .font(.title)
                 .padding(.top, 16)
-            
-            VStack {
+            ScrollView(.vertical) {
                 Text("Last commit")
                     .bold()
-                    .font(.system(.title2))
-                    .padding(.top, 8)
+                    .font(.title3)
                 
                 Text("Author")
                     .bold()
@@ -48,8 +49,10 @@ struct RepositoryView: View {
                 Text("Message")
                     .bold()
                     .padding(.vertical, 2)
+                    .multilineTextAlignment(.center)
                 
                 Text(viewModel.commitMessage)
+
                 
                 Text("Parents:")
                     .bold()
@@ -57,19 +60,20 @@ struct RepositoryView: View {
             
                 ForEach(viewModel.commitParentsSha, id: \.self) { sha in
                     Text(sha)
+                        .font(.system(size: 15))
                         .padding(.vertical, 2)
                 }
-            }
                 
-            Text(viewModel.commitDate.customDateRepresentation() )
-            
-            Spacer()
+                Text(viewModel.commitDate.customDateRepresentation() )
+                
+                Spacer()
+            }
         }
     }
 }
 
-struct RepositoryView_Previews: PreviewProvider {
-    static var previews: some View {
-        RepositoryView(viewModel: RepositoryViewModel(repository: Repository(id: 1, name: "123", owner: Owner(login: "John", avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4"), commitUrl: "https://api.github.com/repos/mojombo/grit/commits?per_page=1")))
-    }
-}
+//struct RepositoryView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RepositoryView(viewModel: RepositoryViewModel(provider: CommitProvider(), repository: Repository(id: 1, name: "123", owner: Owner(login: "John", avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4"), commitUrl: "https://api.github.com/repos/mojombo/grit/commits?per_page=1")))
+//    }
+//}

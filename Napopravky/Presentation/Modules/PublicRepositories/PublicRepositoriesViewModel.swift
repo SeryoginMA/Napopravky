@@ -9,13 +9,24 @@ import SwiftUI
 
 class PublicRepositoriesViewModel: ObservableObject, Identifiable {
 
-    private let provider: RepositoryProviding = RepositoryProvider()
+    private let provider: RepositoryProviding
     
-    var repositories: [Repository] = []
+    @Published var repositories: [Repository] = []
     
-    func showRepositoryDetails(repository: Repository) {
-        print(repository.id)
+    init(provider: RepositoryProviding) {
+        self.provider = provider
+        getRepositories()
     }
     
+    func showRepositoryDetails(repository: Repository) -> RepositoryView {
+        
+        let viewModel = RepositoryViewModel(provider: CommitProvider(), repository: repository)
+        return RepositoryView(viewModel: viewModel)
+    }
     
+    private func getRepositories() {
+        provider.getPublicRepositories(){ repositories in
+            self.repositories = repositories
+        }
+    }
 }

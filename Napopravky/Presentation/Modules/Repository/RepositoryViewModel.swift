@@ -18,13 +18,13 @@ class RepositoryViewModel: ObservableObject, Identifiable {
     @Published var commitDate: String = ""
     @Published var commitParentsSha: [String] = []
     
-    init(repository: Repository) {
+    init(provider: CommitProviding, repository: Repository) {
         self.repository = repository
-        getCommit(commitUrl: "https://api.github.com/repos/mojombo/grit/commits")
+        getCommit(commitUrl: repository.commitUrl)
     }
     
     private func getCommit(commitUrl: String) {
-        provider.getFirstCommit(commitUrl: commitUrl) { commit in
+        provider.getFirstCommit(commitUrl: String(commitUrl.dropLast(6))) { commit in
             self.commitAuthorName = commit.details.author.name
             self.commitMessage = commit.details.message
             self.commitDate = commit.details.author.date
@@ -33,4 +33,5 @@ class RepositoryViewModel: ObservableObject, Identifiable {
             }
         }
     }
+    
 }
